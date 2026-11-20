@@ -1,0 +1,10 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: Never
+BreakBeforeBraces: Allman
+ColumnLimit: 80
+SeparateDefinitionBlocks: Always
+MaxEmptyLinesToKeep: 1
+PointerAlignment: Right
+DerivePointerAlignment: false
+SortIncludes: true

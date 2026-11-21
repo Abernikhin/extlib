@@ -3,22 +3,13 @@
 
 #include <stddef.h>
 
-#define pointer(type)                                                          \
-    struct Pointer_##type                                                      \
-    {                                                                          \
-        type *super;                                                           \
-        size_t ptr;                                                            \
-    }
+void *makePointer(size_t);
+void dropPointer(void *);
+void dropUniquePointer(void *);
 
-size_t makePointer(size_t);
-void dropPointer(size_t);
-void *getByPointer(size_t);
-void clearMemory();
-void showMemory();
-
-#define make(type)                                                             \
-    (struct Pointer_##type) { NULL, makePointer(sizeof(type)) }
-#define drop(obj) dropPointer(obj.ptr)
-#define get(obj) *(typeof(obj.super))getByPointer(obj.ptr)
+#define make(type) ((type*)makePointer(sizeof(type)))
+#define drop(obj) dropPointer(obj)
+#define unique __attribute__((cleanup(dropUniquePointer)))
+#define move(obj) ({ typeof(obj) ptr = obj; obj = NULL; ptr; })
 
 #endif

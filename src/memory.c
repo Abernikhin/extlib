@@ -1,6 +1,7 @@
 #include "memory.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static size_t count = 0;
 
@@ -12,10 +13,20 @@ void *makePointer(size_t size)
     return ptr;
 }
 
+char* StringDuplicate(char* txt) {
+    char *ptr = strdup(txt);
+    count++;
+    printf("[alloc %ld] %p\n", count, ptr);
+    return ptr;
+}
+
 void dropPointer(void *ptr)
 {
-    if (ptr == NULL)
+    if (ptr == NULL) {
+        printf("[ free %ld] %p\n", count, ptr);
+        count--;
         return;
+    }
     printf("[ free %ld] %p\n", count, ptr);
     free(ptr);
     count--;

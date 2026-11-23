@@ -6,7 +6,7 @@
 void *makePointer(size_t);
 void setupBlock(void *);
 void *makeSharedPointer(size_t);
-void *shareSharedPointer(void*);
+void *shareSharedPointer(void *);
 void dropPointer(void *);
 void dropUniquePointer(void *);
 void dropSharedPointer(void *);
@@ -22,6 +22,12 @@ void dropSharedPointer(void *);
         obj = NULL;                                                            \
         ptr;                                                                   \
     })
-#define share(obj) (typeof(obj))shareSharedPointer(obj);
+#define reset(obj, ptr)                                                        \
+    obj = ({                                                                   \
+        void *result = ptr;                                                    \
+        drop(obj);                                                             \
+        result;                                                                \
+    })
+#define share(obj) shareSharedPointer(obj);
 
 #endif
